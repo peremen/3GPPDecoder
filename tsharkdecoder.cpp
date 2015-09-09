@@ -15,6 +15,7 @@
  */
 
 #include "tsharkdecoder.h"
+#include <QTextStream>
 
 TSharkDecoder::TSharkDecoder()
 {
@@ -49,35 +50,33 @@ void TSharkDecoder::startDecoder(QString strEncodedData, QString strProtocol)
  */
 
 QString TSharkDecoder::preformatData(QString strEncodedData){
+    QString ret;
+    QTextStream out(&ret);
+    QString t = strEncodedData.simplified(), d;
 
-    QString strReturnData;
-    QStringList strListData;
+    t.replace(" ", "");
 
-    strListData = strEncodedData.split(" ");
-    for(int i = 0; i < strListData.length(); i++ )
-    {
-        if(strListData[i].length() == 2)
-        {
-            strReturnData.append(" ");
-            strReturnData.append(strListData[i]);
-        }
-        else if(strListData[i].length() == 1)
-        {
-            strReturnData.append(" 0");
-            strReturnData.append(strListData[i]);
-        }
-        else if(strListData[i].length() > 2)
-        {
-            for(int j = 0; j < strListData[i].length(); j = j+2)
-            {
-                QStringRef strTempData = strListData[i].midRef(j, 2);
-                strReturnData.append(" ");
-                strReturnData.append(strTempData);
-            }
+    if (t.length() % 2 == 1) {
+        t.append('0');
+    }
 
+    int lines = t.length() / 32;
+    int chars = t.length() / 2, curchar = 0;
+    if (t.length() % 32 > 0) lines++;
+
+    for (int i = 0; i < lines; i++) {
+        d = QString("%1 ").arg(i, 5, 16, QChar('0'));
+        out << d;
+        while (chars > 0) {
+            out << t.mid(2 * curchar, 2) << ' ';
+            curchar++;
+            chars--;
+            if (curchar % 16 == 0) break;
         }
     }
-    return strReturnData;
+    out << '\n';
+    out.flush();
+    return ret;
 }
 
 
@@ -123,12 +122,11 @@ QString TSharkDecoder::getTsharkPath()
 void TSharkDecoder::format_file_for_text2pcap(QString strData)
 {
     QFile textFile("textdata.txt");
-    if (textFile.open(QIODevice::ReadWrite)) {
+    if (textFile.open(QIODevice::Text | QIODevice::ReadWrite | QIODevice::Truncate)) {
         QTextStream stream(&textFile);
-        stream << "0000";
-        stream <<strData;
-        qDebug() << strData;
+        stream << strData;
     }
+    textFile.close();
 }
 
 /* Make a PCAP file from the textdata.

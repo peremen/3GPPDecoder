@@ -27,6 +27,8 @@
 #include <QDebug>
 #include <QTextCursor>
 
+#include "dissectormodel.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -41,25 +43,20 @@ public:
 
 private slots:
     void on_pushButtonDecode_clicked();
-
     void on_radioButtonGsm_toggled(bool checked);
-
     void on_radioButtonUmts_toggled(bool checked);
-
     void on_radioButtonLte_toggled(bool checked);
-
+    void on_radioButtonIP_toggled(bool checked);
     void on_action_Preference_triggered();
-
     void on_pushButtonClear_clicked();
-
     void on_action_Exit_triggered();
-
     void on_action_About_Decoder_triggered();
 
 private:
     Ui::MainWindow *ui;    
     void readfile();
     void setDefaultPreference();
+    DissectorModel gsmModel, umtsModel, lteModel, ipModel;
 };
 
 #endif // MAINWINDOW_H
