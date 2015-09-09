@@ -20,6 +20,7 @@
 #include "tsharkdecoder.h"
 #include "umtsrlcdecoder.h"
 #include "aboutdialog.h"
+#include <QTextCodec>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -243,24 +244,23 @@ void MainWindow::on_pushButtonDecode_clicked()
 
 void MainWindow::readfile(){
     QString filename = "decode_output_temp.txt";
+    QTextCodec *c = QTextCodec::codecForLocale();
+    QByteArray ba;
     QFile file(filename);
-    if(!file.exists()){
-        qDebug() << "No files found "<<filename;
-    }else{
-        qDebug() << filename<<" File read sucess...";
+
+    if (!file.exists()) {
+        qDebug() << "No file found "<< filename;
+        return;
+    } else {
+        qDebug() << filename <<" File read sucess...";
     }
-    QString line;
+
     ui->textEditDecoded->clear();
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)){
-        QTextStream stream(&file);
-        while (!stream.atEnd()){
-            line = stream.readLine();
-            ui->textEditDecoded->setText(ui->textEditDecoded->toPlainText()+line+"\n");
-            qDebug() << "linea: "<<line;
-        }
+        ba = file.readAll();
+        file.close();
     }
-    //file.resize(0);
-    file.close();
+    ui->textEditDecoded->setText(c->toUnicode(ba));
 
     //system("del decode_output_temp.txt");
 }

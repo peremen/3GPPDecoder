@@ -65,13 +65,16 @@ QString TSharkDecoder::preformatData(QString strEncodedData){
     if (t.length() % 32 > 0) lines++;
 
     for (int i = 0; i < lines; i++) {
-        d = QString("%1 ").arg(i, 5, 16, QChar('0'));
+        d = QString("%1 ").arg(i * 16, 5, 16, QChar('0'));
         out << d;
         while (chars > 0) {
             out << t.mid(2 * curchar, 2) << ' ';
             curchar++;
             chars--;
-            if (curchar % 16 == 0) break;
+            if (curchar % 16 == 0){
+                out << '\n';
+                break;
+            }
         }
     }
     out << '\n';
