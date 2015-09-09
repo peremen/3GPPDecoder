@@ -137,7 +137,7 @@ void TSharkDecoder::format_file_for_text2pcap(QString strData)
 
 void TSharkDecoder::call_text2pacp(QString strTsharkPath)
 {
-    QString command= strTsharkPath + "text2pcap.exe -q -l 147 textdata.txt decode_temp.pcap";
+    QString command= strTsharkPath + "text2pcap -q -l 147 textdata.txt decode_temp.pcap";
     system(qPrintable(command));
     qDebug() << command;
 }
@@ -151,12 +151,12 @@ void TSharkDecoder::call_tshark(QString strTsharkPath, QString strProtocol)
 {
     QString command;
     command = command.append(strTsharkPath);
-    command = command.append("tshark.exe -o \"uat:user_dlts:\\\"User 0 (DLT=147)\\\",\\\"");
+    command = command.append("tshark -o \"uat:user_dlts:\\\"User 0 (DLT=147)\\\",\\\"");
     command = command.append(strProtocol);
-    command = command.append("\\\",\\\"0\\\",\\\"\\\",\\\"0\\\",\\\"\\\"\" -r decode_temp.pcap\  -V > decode_output_temp.txt");
+    command = command.append("\\\",\\\"0\\\",\\\"\\\",\\\"0\\\",\\\"\\\"\" -r decode_temp.pcap\  -V -l -x > decode_output_temp.txt");
     qDebug() << command;
     system(qPrintable(command));
-    system("del textdata.txt decode_temp.pcap");
+    system("rm textdata.txt decode_temp.pcap");
 }
 
 /* After decode the first 15 lines are useless data for us.
