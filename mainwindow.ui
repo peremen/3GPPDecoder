@@ -157,14 +157,6 @@
     <addaction name="action_Preference"/>
     <addaction name="action_Exit"/>
    </widget>
-   <widget class="QMenu" name="menu_Edit">
-    <property name="title">
-     <string>&amp;Edit</string>
-    </property>
-    <addaction name="action_Copy"/>
-    <addaction name="action_Cut"/>
-    <addaction name="action_Paste"/>
-   </widget>
    <widget class="QMenu" name="menu_Help">
     <property name="title">
      <string>&amp;Help</string>
@@ -172,27 +164,11 @@
     <addaction name="action_About_Decoder"/>
    </widget>
    <addaction name="menu_File"/>
-   <addaction name="menu_Edit"/>
    <addaction name="menu_Help"/>
   </widget>
   <action name="action_Exit">
    <property name="text">
     <string>&amp;Exit</string>
-   </property>
-  </action>
-  <action name="action_Copy">
-   <property name="text">
-    <string>&amp;Copy</string>
-   </property>
-  </action>
-  <action name="action_Paste">
-   <property name="text">
-    <string>&amp;Paste</string>
-   </property>
-  </action>
-  <action name="action_Cut">
-   <property name="text">
-    <string>C&amp;ut</string>
    </property>
   </action>
   <action name="action_About_Decoder">
@@ -202,7 +178,10 @@
   </action>
   <action name="action_Preference">
    <property name="text">
-    <string>&amp;Preference</string>
+    <string>&amp;Preferences</string>
+   </property>
+   <property name="toolTip">
+    <string>Preferences</string>
    </property>
   </action>
  </widget>

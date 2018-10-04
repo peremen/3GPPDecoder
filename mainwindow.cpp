@@ -50,6 +50,9 @@ MainWindow::MainWindow(QWidget *parent) :
     gsmModel.addData("RR_ul_with_pseudolength", "gsm_a_sacch");
     gsmModel.addData("SNDCP", "sndcp");
     gsmModel.addData("SNDCPXID", "sndcpxid");
+    gsmModel.addData("LAPDm", "lapdm");
+    gsmModel.addData("RLC MAC DL", "gsm_rlcmac_dl");
+    gsmModel.addData("RLC MAC UL", "gsm_rlcmac_ul");
 
     /* UMTS dissectors */
     /*
@@ -119,6 +122,9 @@ MainWindow::MainWindow(QWidget *parent) :
     umtsModel.addData("RRC.MCCH", "rrc.mcch");
     umtsModel.addData("RRC.MSCH", "rrc.msch");
     umtsModel.addData("RRC.PCCH", "rrc.pcch");
+    umtsModel.addData("RRC.UL.CCCH", "rrc.ul.ccch");
+    umtsModel.addData("RRC.UL.DCCH", "rrc.ul.dcch");
+    umtsModel.addData("RRC.UL.SHCCH", "rrc.ul.shcch");
     umtsModel.addData("RRC.SI.MIB", "rrc.si.mib");
     umtsModel.addData("RRC.SI.SB1", "rrc.sb1");
     umtsModel.addData("RRC.SI.SB2", "rrc.sb2");
@@ -159,10 +165,10 @@ MainWindow::MainWindow(QWidget *parent) :
     umtsModel.addData("RRC.SI.SIB17", "rrc.si.sib17");
     umtsModel.addData("RRC.SI.SIB18", "rrc.si.sib18");
     umtsModel.addData("RRC.SI.SIB19", "rrc.si.sib19");
-    umtsModel.addData("RRC.SYSINFO.CONT", "rrc.si.cont");
-    umtsModel.addData("RRC.UL.CCCH", "rrc.ul.ccch");
-    umtsModel.addData("RRC.UL.DCCH", "rrc.ul.dcch");
-    umtsModel.addData("RRC.UL.SHCCH", "rrc.ul.shcch");
+    umtsModel.addData("RRC.SI.SIB20", "rrc.si.sib20");
+    umtsModel.addData("RRC.SI.SIB21", "rrc.si.sib21");
+    umtsModel.addData("RRC.SI.SIB22", "rrc.si.sib22");
+    umtsModel.addData("RRC.SYSINFO.CONT", "rrc.sysinfo.cont");
 
     /* LTE dissectors */
         /*
@@ -180,10 +186,23 @@ MainWindow::MainWindow(QWidget *parent) :
     lteModel.addData("LTE-RRC.DL.CCCH", "lte-rrc.dl.ccch");
     lteModel.addData("LTE-RRC.DL.DCCH", "lte-rrc.dl.dcch");
     lteModel.addData("LTE-RRC.PCCH", "lte-rrc.pcch");
+    lteModel.addData("LTE-RRC.MCCH", "lte-rrc.mcch");
     lteModel.addData("LTE-RRC.UL.CCCH", "lte-rrc.ul.ccch");
     lteModel.addData("LTE-RRC.UL.DCCH", "lte-rrc.ul.dcch");
+
+    lteModel.addData("LTE-RRC.BCCH.BCH-NB", "lte-rrc.bcch.bch.nb");
+    lteModel.addData("LTE-RRC.BCCH.DL.SCH-NB", "lte-rrc.bcch.dl.sch.nb");
+    lteModel.addData("LTE-RRC.DL.CCCH-NB", "lte-rrc.dl.ccch.nb");
+    lteModel.addData("LTE-RRC.DL.DCCH-NB", "lte-rrc.dl.dcch.nb");
+    lteModel.addData("LTE-RRC.PCCH-NB", "lte-rrc.pcch.nb");
+    lteModel.addData("LTE-RRC.SC-MCCH-NB", "lte-rrc.sc.mcch.nb");
+    lteModel.addData("LTE-RRC.UL.CCCH-NB", "lte-rrc.ul.ccch.nb");
+    lteModel.addData("LTE-RRC.UL.DCCH-NB", "lte-rrc.ul.dcch.nb");
+
     lteModel.addData("NAS-EPS", "nas-eps");
     lteModel.addData("NAS-EPS (Plain)", "nas-eps_plain");
+    lteModel.addData("LTE MAC", "mac-lte");
+    lteModel.addData("LTE MAC (framed)", "mac-lte-framed");
 
     /* IP dissectors */
     ipModel.addData("IPv4", "ip");
