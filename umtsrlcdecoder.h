@@ -27,7 +27,7 @@ class UmtsRlcDecoder
 public:
     UmtsRlcDecoder();
     ~UmtsRlcDecoder();
-    void start_decoder(QString encoded_pdu, QString protocol_selected);
+    void start_decoder(QString encoded_pdu, QString protocol_selected, QString fileName);
 private:
     void decode_rlc_acknowledged_pdu(QString encoded_pdu);
     void decode_rlc_unacknowledged_pdu(QString encoded_pdu);
@@ -38,6 +38,7 @@ private:
     void decode_status_pdu(QString encoded_pdu);
     void decode_reset_pdu(QString encoded_pdu);
     void decode_reset_ack_pdu(QString encoded_pdu);
+    QString tempFileName;
 };
 
 #endif // UMTSRLCDECODER_H

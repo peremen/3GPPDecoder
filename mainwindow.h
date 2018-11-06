@@ -23,7 +23,6 @@
 #include <QFile>
 #include <QTextStream>
 #include <QStringRef>
-#include <QProcess>
 #include <QDebug>
 #include <QTextCursor>
 
@@ -54,7 +53,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;    
-    void readfile();
+    void readfile(QString fileName);
     void setDefaultPreference();
     DissectorModel gsmModel, umtsModel, lteModel, ipModel;
 };

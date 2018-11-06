@@ -29,15 +29,15 @@ class TSharkDecoder
 public:
     TSharkDecoder();
     ~TSharkDecoder();
-    void startDecoder(QString strEncodedData, QString strProtocol);
+    void startDecoder(QString strEncodedData, QString strProtocol, QString fileName);
 protected:
 
 private:
-    void format_file_for_text2pcap(QString strData);
+    void format_file_for_text2pcap(QString strData, QString fileName);
     QString preformatData(QString strEncodedData);
-    void call_text2pacp(QString strTsharkPath);
-    void call_tshark(QString strTsharkPath, QString strProtocol);
-    void clean_output();
+    void call_text2pcap(QString strTsharkPath, QString textFileName, QString pcapFileName);
+    void call_tshark(QString strTsharkPath, QString strProtocol, QString pcapFileName, QString outputFileName);
+    void clean_output(QString fileName);
     QString getTsharkPath();
 };
 

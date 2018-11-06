@@ -28,8 +28,9 @@ UmtsRlcDecoder::~UmtsRlcDecoder()
 
 /* UMTS RLC PDU decoding starts here */
 
-void UmtsRlcDecoder::start_decoder(QString encoded_pdu, QString protocol_selected)
+void UmtsRlcDecoder::start_decoder(QString encoded_pdu, QString protocol_selected, QString fileName)
 {
+    this->tempFileName = fileName;
     if(protocol_selected.contains("AM"))
     {
         //It is a UMTS RLC AM PDU and will be decoded
@@ -81,7 +82,7 @@ QString UmtsRlcDecoder::check_control_or_data_pdu(QString encoded_pdu)
 void UmtsRlcDecoder::decode_am_data_pdu(QString encoded_pdu)
 {
     //This file stores the decoded pdu information
-    QFile decoded_data_file("decode_output_temp.txt");
+    QFile decoded_data_file(this->tempFileName);
     int fixed_am_header;
     int header_item;
     bool ok;
@@ -170,7 +171,7 @@ void UmtsRlcDecoder::decode_am_data_pdu(QString encoded_pdu)
 
 void UmtsRlcDecoder::decode_am_control_pdu(QString encoded_pdu)
 {
-    QFile decoded_data_file("decode_output_temp.txt");
+    QFile decoded_data_file(this->tempFileName);
     QString pdu_for_sufi_decoding;
     int fixed_control_pdu_header;
     int header_item;
@@ -299,7 +300,7 @@ void UmtsRlcDecoder::decode_am_control_pdu(QString encoded_pdu)
 
 void UmtsRlcDecoder::decode_rlc_unacknowledged_pdu(QString encoded_pdu)
 {
-    QFile decoded_data_file("decode_output_temp.txt");
+    QFile decoded_data_file(this->tempFileName);
     QTextStream stream(&decoded_data_file);
     int umd_sequence_number; //next header item to be decoded
     int extension_bit;

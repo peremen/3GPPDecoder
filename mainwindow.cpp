@@ -21,6 +21,8 @@
 #include "umtsrlcdecoder.h"
 #include "aboutdialog.h"
 #include <QTextCodec>
+#include <QTemporaryFile>
+#include <QDir>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -228,6 +230,7 @@ void MainWindow::on_pushButtonDecode_clicked()
     QMessageBox* message_box 	= new QMessageBox();
     //QFile textFile("textfile");
     //QFile pcapFile("pacap");
+    QTemporaryFile fileResult(QDir::tempPath() + QDir::separator() + "3GPPDecoder.dec.XXXXXX.pcap");
 
     encoded_pdu = ui->lineEditData->text();
     protocol_selected = ui->comboBoxProtocol->currentData(Qt::UserRole).toString();
@@ -240,6 +243,8 @@ void MainWindow::on_pushButtonDecode_clicked()
         return;
     }
 
+    fileResult.open();
+    fileResult.close();
     if (protocol_selected != NULL) {
         if (protocol_selected.contains("RLC")) {
             encoded_pdu = encoded_pdu.remove(" ");
@@ -249,29 +254,28 @@ void MainWindow::on_pushButtonDecode_clicked()
             } else {
                 if(ui->radioButtonUmts->isChecked()) {
                     UmtsRlcDecoder* umts_rlc_decoder = new UmtsRlcDecoder();
-                    umts_rlc_decoder->start_decoder(encoded_pdu, protocol_selected);
+                    umts_rlc_decoder->start_decoder(encoded_pdu, protocol_selected, fileResult.fileName());
                 }
             }
         } else {
             //Decode as RRC with TShark
             TSharkDecoder* tshark_decoder = new TSharkDecoder();
-            tshark_decoder->startDecoder(encoded_pdu, protocol_selected);
+            tshark_decoder->startDecoder(encoded_pdu, protocol_selected, fileResult.fileName());
         }
-        readfile();
+        readfile(fileResult.fileName());
     }
 }
 
-void MainWindow::readfile(){
-    QString filename = "decode_output_temp.txt";
+void MainWindow::readfile(QString fileName){
     QTextCodec *c = QTextCodec::codecForLocale();
     QByteArray ba;
-    QFile file(filename);
+    QFile file(fileName);
 
     if (!file.exists()) {
-        qDebug() << "No file found "<< filename;
+        qDebug() << "No file found "<< fileName;
         return;
     } else {
-        qDebug() << filename <<" File read sucess...";
+        qDebug() << fileName <<" File read sucess...";
     }
 
     ui->textEditDecoded->clear();
