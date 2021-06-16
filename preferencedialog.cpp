@@ -16,6 +16,9 @@
 
 #include "preferencedialog.h"
 #include "ui_preferencedialog.h"
+#include <QSettings>
+#include <QDir>
+#include <QFileDialog>
 
 PreferenceDialog::PreferenceDialog(QWidget *parent) :
     QDialog(parent),
@@ -32,33 +35,36 @@ PreferenceDialog::~PreferenceDialog()
 
 void PreferenceDialog::setDefaults()
 {
-    QString strCurrentWiresharkPath = "C:\\Program Files\\Wireshark\\";
-    QFile wiresharkpath("config.txt");
-    //Default Wireshark Path
-    if (wiresharkpath.open(QIODevice::ReadOnly | QIODevice::Text)){
-        QTextStream stream(&wiresharkpath);
-        while (!stream.atEnd()){
-            strCurrentWiresharkPath = stream.readLine();
-            if(strCurrentWiresharkPath.contains("wireshark:"))
-            {
-                strCurrentWiresharkPath = strCurrentWiresharkPath.remove(0,10);
-            }
-        }
-    }
+    QSettings settings;
+    QString wiresharkDefaultPath;
+
+#if defined(Q_OS_WIN)
+    wiresharkDefaultPath = "C:\\Program Files\\Wireshark\\";
+#elif defined(Q_OS_MACOS)
+    wiresharkDefaultPath = "/Applications/Wireshark.app/Contents/MacOS/";
+#elif defined(Q_OS_LINUX) || defined(Q_OS_UNIX)
+    wiresharkDefaultPath = "/usr/bin";
+#endif
+
+    QString strCurrentWiresharkPath = settings.value("path/wireshark", wiresharkDefaultPath).toString();
     ui->lineEditWireshark->setText(strCurrentWiresharkPath);
+    ui->lblDefaultPath->setText(tr("Default: %1").arg(wiresharkDefaultPath));
 }
 
 void PreferenceDialog::on_buttonBox_accepted()
 {
-    QString strWiresharkDir;
-    QFile configFile("config.txt");
-    strWiresharkDir = "C:\\Program Files\\Wireshark\\";
-    if(ui->lineEditWireshark->text().length()> 0)
-    {
-        strWiresharkDir = ui->lineEditWireshark->text();
-        if (configFile.open(QIODevice::ReadWrite)) {
-              QTextStream stream(&configFile);
-              stream << "wireshark:" << strWiresharkDir;
-          }
+    QSettings settings;
+    QDir wsdir(ui->lineEditWireshark->text());
+    if (wsdir.exists()) {
+        settings.setValue("path/wireshark", wsdir.canonicalPath());
     }
+}
+
+void PreferenceDialog::on_btnBrowse_clicked() {
+    QSettings settings;
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Select Directory"),
+                                                    ui->lineEditWireshark->text(),
+                                                    QFileDialog::ShowDirsOnly
+                                                    | QFileDialog::DontResolveSymlinks);
+    ui->lineEditWireshark->setText(dir);
 }

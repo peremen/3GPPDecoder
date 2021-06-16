@@ -206,6 +206,26 @@ MainWindow::MainWindow(QWidget *parent) :
     lteModel.addData("LTE MAC", "mac-lte");
     lteModel.addData("LTE MAC (framed)", "mac-lte-framed");
 
+    /* 5GNR dissectors */
+    nrModel.addData("NR-RRC.BCCH.BCH", "nr-rrc.bcch.bch");
+    nrModel.addData("NR-RRC.BCCH.DL.SCH", "nr-rrc.bcch.dl.sch");
+    nrModel.addData("NR-RRC.DL.CCCH", "nr-rrc.dl.ccch");
+    nrModel.addData("NR-RRC.DL.DCCH", "nr-rrc.dl.dcch");
+    nrModel.addData("NR-RRC.PCCH", "nr-rrc.pcch");
+    nrModel.addData("NR-RRC.UL.CCCH", "nr-rrc.ul.ccch");
+    nrModel.addData("NR-RRC.UL.CCCH1", "nr-rrc.ul.ccch1");
+    nrModel.addData("NR-RRC.UL.DCCH", "nr-rrc.ul.dcch");
+    nrModel.addData("NR-RRC.SBCCH.SL.BCH", "nr-rrc.sbcch.sl.bch");
+    nrModel.addData("NR-RRC.SCCH", "nr-rrc.scch");
+    nrModel.addData("NR-RRC.UERadioPagingInformation", "nr-rrc.ue_radio_paging_info");
+    nrModel.addData("NR-RRC.UERadioAccessCapabilityInformation", "nr-rrc.ue_radio_access_cap_info");
+    nrModel.addData("NR-RRC.RRCReconfiguration", "nr-rrc.rrc_reconf");
+    nrModel.addData("NR-RRC.UEMRDCCapability", "nr-rrc.ue_mrdc_cap");
+    nrModel.addData("NR-RRC.UENRCapability", "nr-rrc.ue_nr_cap");
+
+    nrModel.addData("NAS-5GS", "nas-5gs");
+    nrModel.addData("NR MAC", "mac-nr");
+
     /* IP dissectors */
     ipModel.addData("IPv4", "ip");
     ipModel.addData("IPv6", "ipv6");
@@ -227,9 +247,7 @@ void MainWindow::on_pushButtonDecode_clicked()
     QString encoded_pdu;
     QString protocol_selected;
     int pdu_length = 0;
-    QMessageBox* message_box 	= new QMessageBox();
-    //QFile textFile("textfile");
-    //QFile pcapFile("pacap");
+    QMessageBox* message_box = new QMessageBox();
     QTemporaryFile fileResult(QDir::tempPath() + QDir::separator() + "3GPPDecoder.dec.XXXXXX.pcap");
 
     encoded_pdu = ui->lineEditData->text();
@@ -284,8 +302,6 @@ void MainWindow::readfile(QString fileName){
         file.close();
     }
     ui->textEditDecoded->setText(c->toUnicode(ba));
-
-    //system("del decode_output_temp.txt");
 }
 
 void MainWindow::on_radioButtonGsm_toggled(bool checked)
@@ -308,6 +324,14 @@ void MainWindow::on_radioButtonLte_toggled(bool checked)
     if (checked) {
         ui->comboBoxProtocol->setModel(&lteModel);
     }
+}
+
+void MainWindow::on_radioButton5GNr_toggled(bool checked)
+{
+    if (checked) {
+        ui->comboBoxProtocol->setModel(&nrModel);
+    }
+
 }
 
 void MainWindow::on_radioButtonIP_toggled(bool checked) {

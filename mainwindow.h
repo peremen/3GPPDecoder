@@ -45,6 +45,7 @@ private slots:
     void on_radioButtonGsm_toggled(bool checked);
     void on_radioButtonUmts_toggled(bool checked);
     void on_radioButtonLte_toggled(bool checked);
+    void on_radioButton5GNr_toggled(bool checked);
     void on_radioButtonIP_toggled(bool checked);
     void on_action_Preference_triggered();
     void on_pushButtonClear_clicked();
@@ -55,7 +56,7 @@ private:
     Ui::MainWindow *ui;    
     void readfile(QString fileName);
     void setDefaultPreference();
-    DissectorModel gsmModel, umtsModel, lteModel, ipModel;
+    DissectorModel gsmModel, umtsModel, lteModel, nrModel, ipModel;
 };
 
 #endif // MAINWINDOW_H

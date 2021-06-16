@@ -21,6 +21,8 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    QCoreApplication::setOrganizationName("3gppdecoder");
+    QCoreApplication::setApplicationName("3gppdecoder");
     MainWindow w;
     w.show();
 

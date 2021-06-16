@@ -20,6 +20,7 @@
 #include <QDir>
 #include <QProcess>
 #include <QStringList>
+#include <QSettings>
 
 TSharkDecoder::TSharkDecoder()
 {
@@ -97,39 +98,25 @@ QString TSharkDecoder::preformatData(QString strEncodedData){
     return ret;
 }
 
-
-/* Get the tshark path on Windows.
- * No support for Windows XP at this moment
+/* Get the tshark path
  */
 
 QString TSharkDecoder::getTsharkPath()
 {
-    QString strWiresharkLoc;
-    strWiresharkLoc = "C:\\Progra~1\\Wireshark\\";
-    QFile wiresharkpath("config.txt");
-    if(!wiresharkpath.exists())
-    {
-        return strWiresharkLoc;
-    }
-    else
-    {
-        if (wiresharkpath.open(QIODevice::ReadOnly | QIODevice::Text)){
-            QTextStream stream(&wiresharkpath);
-            QString strLine;
-            while (!stream.atEnd()){
-                strLine = stream.readLine();
-                if(strLine.contains("wireshark:"))
-                {
-                    strWiresharkLoc = strLine.remove(0,10);
-                    if(strWiresharkLoc.contains("86"))
-                    {
-                        strWiresharkLoc = "C:\\Progra~2\\Wireshark\\";
-                    }
-                }
-            }
-        }
-    }
-    return strWiresharkLoc;
+
+    QSettings settings;
+    QString wiresharkDefaultPath;
+
+#if defined(Q_OS_WIN)
+    wiresharkDefaultPath = "C:\\Program Files\\Wireshark\\";
+#elif defined(Q_OS_MACOS)
+    wiresharkDefaultPath = "/Applications/Wireshark.app/Contents/MacOS/";
+#elif defined(Q_OS_LINUX) || defined(Q_OS_UNIX)
+    wiresharkDefaultPath = "/usr/bin";
+#endif
+
+    QString strCurrentWiresharkPath = settings.value("path/wireshark", wiresharkDefaultPath).toString();
+    return strCurrentWiresharkPath;
 }
 
 /* Create a Textfile which text2pcap can understand.

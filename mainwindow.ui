@@ -84,6 +84,13 @@
           </widget>
          </item>
          <item>
+          <widget class="QRadioButton" name="radioButton5GNr">
+           <property name="text">
+            <string>5G NR</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QRadioButton" name="radioButtonIP">
            <property name="text">
             <string>IP</string>
@@ -147,7 +154,7 @@
      <x>0</x>
      <y>0</y>
      <width>712</width>
-     <height>26</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
