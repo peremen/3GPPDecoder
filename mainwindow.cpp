@@ -20,9 +20,14 @@
 #include "tsharkdecoder.h"
 #include "umtsrlcdecoder.h"
 #include "aboutdialog.h"
-#include <QTextCodec>
 #include <QTemporaryFile>
 #include <QDir>
+
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+#include <QTextCodec>
+#else
+#include <QStringConverter>
+#endif
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -263,7 +268,7 @@ void MainWindow::on_pushButtonDecode_clicked()
 
     fileResult.open();
     fileResult.close();
-    if (protocol_selected != NULL) {
+    if (protocol_selected != QStringLiteral("")) {
         if (protocol_selected.contains("RLC")) {
             encoded_pdu = encoded_pdu.remove(" ");
             encoded_pdu = encoded_pdu.remove("\n");
@@ -285,7 +290,6 @@ void MainWindow::on_pushButtonDecode_clicked()
 }
 
 void MainWindow::readfile(QString fileName){
-    QTextCodec *c = QTextCodec::codecForLocale();
     QByteArray ba;
     QFile file(fileName);
 
@@ -301,7 +305,13 @@ void MainWindow::readfile(QString fileName){
         ba = file.readAll();
         file.close();
     }
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+    QTextCodec *c = QTextCodec::codecForLocale();
     ui->textEditDecoded->setText(c->toUnicode(ba));
+#else
+    auto c = QStringDecoder(QStringDecoder::System);
+    ui->textEditDecoded->setText(c(ba));
+#endif
 }
 
 void MainWindow::on_radioButtonGsm_toggled(bool checked)
