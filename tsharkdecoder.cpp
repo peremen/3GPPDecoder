@@ -142,7 +142,7 @@ void TSharkDecoder::format_file_for_text2pcap(QString strData, QString fileName)
 void TSharkDecoder::call_text2pcap(QString strTsharkPath, QString textFileName, QString pcapFileName) {
     QString text2pcapCmd = QDir::cleanPath(strTsharkPath + QDir::separator() + "text2pcap");
     QStringList text2pcapArgs;
-    text2pcapArgs << "-q" << "-l" << "147" << textFileName << pcapFileName;
+    text2pcapArgs << "-F" << "pcap" << "-q" << "-l" << "147" << textFileName << pcapFileName;
     qDebug() << text2pcapArgs;
 
     QProcess *text2pcapProcess = new QProcess();
