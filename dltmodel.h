@@ -1,6 +1,5 @@
 /* This file is part of 3GPP Decoder project.
- * Copyright (C) 2015  Prashant Panigrahi prashant@3glteinfo.com
- * Copyright (C) 2021-2025 Shinjo Park
+ * Copyright (C) 2025 Shinjo Park
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -15,35 +14,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PREFERENCEDIALOG_H
-#define PREFERENCEDIALOG_H
+#ifndef DLTMODEL_H
+#define DLTMODEL_H
 
-#include <QDialog>
-#include <QFile>
-#include <QTextStream>
+#include <QAbstractItemModel>
+#include <QList>
+#include <QPair>
+#include <QString>
 
-#include "dltmodel.h"
-
-namespace Ui {
-class PreferenceDialog;
-}
-
-class PreferenceDialog : public QDialog
+class DltModel : public QAbstractListModel
 {
     Q_OBJECT
-
 public:
-    explicit PreferenceDialog(QWidget *parent = 0);
-    ~PreferenceDialog();
+    explicit DltModel(QObject *parent = 0);
 
-private slots:
-    void on_buttonBox_accepted();
-    void on_btnBrowse_clicked();
+    int rowCount(const QModelIndex &parent) const;
+    QVariant data(const QModelIndex &index, int role) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
-private:
-    Ui::PreferenceDialog *ui;
-    void setDefaults();
-    DltModel d;
 };
 
-#endif // PREFERENCEDIALOG_H
+#endif // DLTMODEL_H
+

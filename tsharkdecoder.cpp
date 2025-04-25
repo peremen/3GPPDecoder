@@ -141,9 +141,11 @@ void TSharkDecoder::format_file_for_text2pcap(QString strData, QString fileName)
  */
 
 void TSharkDecoder::call_text2pcap(QString strTsharkPath, QString textFileName, QString pcapFileName) {
+    QSettings settings;
+    int currentDlt = settings.value("wireshark/dlt", 0).toInt();
     QString text2pcapCmd = QDir::cleanPath(strTsharkPath + QDir::separator() + "text2pcap");
     QStringList text2pcapArgs;
-    text2pcapArgs << "-F" << "pcap" << "-q" << "-l" << "147" << textFileName << pcapFileName;
+    text2pcapArgs << "-F" << "pcap" << "-q" << "-l" << QString::number(currentDlt + 147) << textFileName << pcapFileName;
     qDebug() << text2pcapArgs;
 
     QProcess *text2pcapProcess = new QProcess();
@@ -156,10 +158,12 @@ void TSharkDecoder::call_text2pcap(QString strTsharkPath, QString textFileName, 
  * NAS messages embeded are also parsed by Tshark.
  */
 void TSharkDecoder::call_tshark(QString strTsharkPath, QString strProtocol, QString pcapFileName, QString outputFileName) {
+    QSettings settings;
+    int currentDlt = settings.value("wireshark/dlt", 0).toInt();
     QString tsharkCmd = QDir::cleanPath(strTsharkPath + QDir::separator() + "tshark");
-    QString userdltsString = "uat:user_dlts:\"User 0 (DLT=147)\",\"%1\",\"0\",\"\",\"0\",\"\"";
+    QString userdltsString = "uat:user_dlts:\"User %1 (DLT=%2)\",\"%3\",\"0\",\"\",\"0\",\"\"";
     QStringList tsharkArgs;
-    tsharkArgs << "-o" << userdltsString.arg(strProtocol);
+    tsharkArgs << "-o" << userdltsString.arg(currentDlt).arg(currentDlt + 147).arg(strProtocol);
     tsharkArgs << "-r" << pcapFileName << "-V" << "-l" << "-x";
     qDebug() << tsharkArgs;
 

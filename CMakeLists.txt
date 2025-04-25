@@ -13,13 +13,18 @@ set(CMAKE_AUTOUIC ON)
 find_package(Qt6 COMPONENTS Core Gui Widgets)
 
 qt_add_executable(3GPPDecoder WIN32 MACOSX_BUNDLE
-    aboutdialog.cpp aboutdialog.h aboutdialog.ui
-    dissectormodel.cpp dissectormodel.h
+    aboutdialog.cpp aboutdialog.ui
+    dissectormodel.cpp
+    dltmodel.cpp
     main.cpp
-    mainwindow.cpp mainwindow.h mainwindow.ui
-    preferencedialog.cpp preferencedialog.h preferencedialog.ui
-    tsharkdecoder.cpp tsharkdecoder.h
-    umtsrlcdecoder.cpp umtsrlcdecoder.h
+    mainwindow.cpp mainwindow.ui
+    preferencedialog.cpp preferencedialog.ui
+    tsharkdecoder.cpp
+    umtsrlcdecoder.cpp
+)
+
+target_include_directories(3GPPDecoder PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 target_link_libraries(3GPPDecoder PRIVATE

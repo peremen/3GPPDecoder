@@ -50,6 +50,9 @@ void PreferenceDialog::setDefaults()
     QString strCurrentWiresharkPath = settings.value("path/wireshark", wiresharkDefaultPath).toString();
     ui->lineEditWireshark->setText(strCurrentWiresharkPath);
     ui->lblDefaultPath->setText(tr("Default: %1").arg(wiresharkDefaultPath));
+    ui->cmbUserDlts->setModel(&d);
+    int currentDlt = settings.value("wireshark/dlt", 0).toInt();
+    ui->cmbUserDlts->setCurrentIndex(currentDlt);
 }
 
 void PreferenceDialog::on_buttonBox_accepted()
@@ -59,6 +62,7 @@ void PreferenceDialog::on_buttonBox_accepted()
     if (wsdir.exists()) {
         settings.setValue("path/wireshark", wsdir.canonicalPath());
     }
+    settings.setValue("wireshark/dlt", ui->cmbUserDlts->currentIndex());
 }
 
 void PreferenceDialog::on_btnBrowse_clicked() {
