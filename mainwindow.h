@@ -1,5 +1,6 @@
 /* This file is part of 3GPP Decoder project.
  * Copyright (C) 2015  Prashant Panigrahi prashant@3glteinfo.com
+ * Copyright (C) 2015-2025 Shinjo Park
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -13,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
@@ -52,7 +52,7 @@ private slots:
     void on_action_About_Decoder_triggered();
 
 private:
-    Ui::MainWindow *ui;    
+    Ui::MainWindow *ui;
     void readfile(QString fileName);
     void setDefaultPreference();
     DissectorModel gsmModel, umtsModel, lteModel, nrModel, ipModel;

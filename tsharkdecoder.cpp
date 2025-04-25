@@ -1,5 +1,6 @@
 /* This file is part of 3GPP Decoder project.
  * Copyright (C) 2015  Prashant Panigrahi prashant@3glteinfo.com
+ * Copyright (C) 2015-2025 Shinjo Park
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
