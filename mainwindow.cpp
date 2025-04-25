@@ -38,17 +38,6 @@ MainWindow::MainWindow(QWidget *parent) :
     on_radioButtonLte_toggled(true);
 
     /* GSM dissectors */
-    /*lookup_dissector_element_t gsm_dissector_lookup_table[] = {
-         * {"GAN.TCP","umatcp","Rel 6"},
-         * {"GAN.UDP","umaudp","Rel 6"},
-         * {"LLC","llcgprs","Rel 6"},
-         * {"NAS","gsm_a_dtap","Rel 6"},
-         * {"RR","gsm_a_dtap","Rel 6"},
-         * {"RR_dl_with_pseudolength","gsm_a_ccch","Rel 6"},
-         * {"RR_ul_with_pseudolength","gsm_a_sacch","Rel 6"},
-         * {"SNDCP","sndcp","Rel 6"},
-         * {"SNDCPXID","sndcpxid","Rel 6"}};
-         */
     gsmModel.addData("GAN.TCP", "umatcp");
     gsmModel.addData("GAN.UDP", "umaudp");
     gsmModel.addData("LLC", "llcgprs");
@@ -62,62 +51,6 @@ MainWindow::MainWindow(QWidget *parent) :
     gsmModel.addData("RLC MAC UL", "gsm_rlcmac_ul");
 
     /* UMTS dissectors */
-    /*
-     * lookup_dissector_element_t wcdma_dissector_lookup_table[] = {
-     * {"NAS","gsm_a_dtap","Rel 6"},
-     * {"RRC.BCCH.BCH","rrc.bcch.bch","Rel 8"},
-     * {"RRC.BCCH.FACH","rrc.bcch.fach","Rel 8"},
-     * {"RRC.DL.CCCH","rrc.dl.ccch","Rel 8"},
-     * {"RRC.DL.DCCH","rrc.dl.dcch","Rel 8"},
-     * {"RRC.DL.SHCCH","rrc.dl.shcch","Rel 8"},
-     * {"RRC.MCCH","rrc.mcch","Rel 8"},
-     * {"RRC.MSCH","rrc.msch","Rel 8"},
-     * {"RRC.PCCH","rrc.pcch","Rel 8"},
-     * {"RRC.SI.MIB","rrc.si.mib","Rel 8"},
-     * {"RRC.SI.SB1","rrc.sb1","Rel 8"},
-     * {"RRC.SI.SB2","rrc.sb2","Rel 8"},
-     * {"RRC.SI.SIB1","rrc.si.sib1","Rel 8"},
-     * {"RRC.SI.SIB10","rrc.si.sib10","Rel 8"},
-     * {"RRC.SI.SIB11","rrc.si.sib11","Rel 8"},
-     * {"RRC.SI.SIB11bis","rrc.si.sib11bis","Rel 8"},
-     * {"RRC.SI.SIB12","rrc.si.sib12","Rel 8"},
-     * {"RRC.SI.SIB13","rrc.si.sib13","Rel 8"},
-     * {"RRC.SI.SIB13-1","rrc.si.sib13-1","Rel 8"},
-     * {"RRC.SI.SIB13-2","rrc.si.sib13-2","Rel 8"},
-     * {"RRC.SI.SIB13-3","rrc.si.sib13-3","Rel 8"},
-     * {"RRC.SI.SIB13-4","rrc.si.sib13-4","Rel 8"},
-     * {"RRC.SI.SIB14","rrc.si.sib14","Rel 8"},
-     * {"RRC.SI.SIB15","rrc.si.sib15","Rel 8"},
-     * {"RRC.SI.SIB15bis","rrc.si.sib15bis","Rel 8"},
-     * {"RRC.SI.SIB15-1","rrc.si.sib15-1","Rel 8"},
-     * {"RRC.SI.SIB15-1bis","rrc.si.sib15-1bis","Rel 8"},
-     * {"RRC.SI.SIB15-2","rrc.si.sib15-2","Rel 8"},
-     * {"RRC.SI.SIB15-2bis","rrc.si.sib15-2bis","Rel 8"},
-     * {"RRC.SI.SIB15-3","rrc.si.sib15-3","Rel 8"},
-     * {"RRC.SI.SIB15-3bis","rrc.si.sib15-3bis","Rel 8"},
-     * {"RRC.SI.SIB15-4","rrc.si.sib15-4","Rel 8"},
-     * {"RRC.SI.SIB15-5","rrc.si.sib15-5","Rel 8"},
-     * {"RRC.SI.SIB15-6","rrc.si.sib15-6","Rel 8"},
-     * {"RRC.SI.SIB15-7","rrc.si.sib15-7","Rel 8"},
-     * {"RRC.SI.SIB15-8","rrc.si.sib15-8","Rel 8"},
-     * {"RRC.SI.SIB18","rrc.si.sib18","Rel 8"},
-     * {"RRC.SI.SIB17","rrc.si.sib17","Rel 8"},
-     * {"RRC.SI.SIB18","rrc.si.sib18","Rel 8"},
-     * {"RRC.SI.SIB2","rrc.si.sib2","Rel 8"},
-     * {"RRC.SI.SIB3","rrc.si.sib3","Rel 8"},
-     * {"RRC.SI.SIB4","rrc.si.sib4","Rel 8"},
-     * {"RRC.SI.SIB5","rrc.si.sib5","Rel 8"},
-     * {"RRC.SI.SIB5bis","rrc.si.sib5bis","Rel 8"},
-     * {"RRC.SI.SIB6","rrc.si.sib6","Rel 8"},
-     * {"RRC.SI.SIB7","rrc.si.sib7","Rel 8"},
-     * {"RRC.SI.SIB8","rrc.si.sib8","Rel 8"},
-     * {"RRC.SI.SIB9","rrc.si.sib9","Rel 8"},
-     * {"RRC.UL.CCCH","rrc.ul.ccch","Rel 8"},
-     * {"RRC.UL.DCCH","rrc.ul.dcch","Rel 8"},
-     * {"RRC.UL.SHCCH","rrc.ul.shcch","Rel 8"}
-};
-*/
-
     umtsModel.addData("L3", "gsm_a_dtap");
     umtsModel.addData("RLC-AM", "RLC-AM");
     umtsModel.addData("RLC-UM", "RLC-UM");
@@ -178,16 +111,6 @@ MainWindow::MainWindow(QWidget *parent) :
     umtsModel.addData("RRC.SYSINFO.CONT", "rrc.sysinfo.cont");
 
     /* LTE dissectors */
-        /*
-         * Supported protocols for LTE RRC
-         * {"LTE-RRC.BCCH.BCH","lte-rrc.bcch.bch","Rel 8"},
-         * {"LTE-RRC.BCCH.DL.SCH","lte-rrc.bcch.dl.sch","Rel 8"},
-         * {"LTE-RRC.DL.CCCH","lte-rrc.dl.ccch","Rel 8"},
-         * {"LTE-RRC.DL.DCCH","lte-rrc.dl.dcch","Rel 8"},
-         * {"LTE-RRC.PCCH","lte-rrc.pcch","Rel 8"},
-         * {"LTE-RRC.UL.CCCH","lte-rrc.ul.ccch","Rel 8"},
-         * {"LTE-RRC.UL.DCCH","lte-rrc.ul.dcch","Rel 8"},
-         * {"NAS-EPS","nas-eps","Rel 8"}*/
     lteModel.addData("LTE-RRC.BCCH.BCH", "lte-rrc.bcch.bch");
     lteModel.addData("LTE-RRC.BCCH.DL.SCH", "lte-rrc.bcch.dl.sch");
     lteModel.addData("LTE-RRC.DL.CCCH", "lte-rrc.dl.ccch");
@@ -210,6 +133,7 @@ MainWindow::MainWindow(QWidget *parent) :
     lteModel.addData("NAS-EPS (Plain)", "nas-eps_plain");
     lteModel.addData("LTE MAC", "mac-lte");
     lteModel.addData("LTE MAC (framed)", "mac-lte-framed");
+    lteModel.addData("LTE PDCP", "pdcp-lte");
 
     /* 5GNR dissectors */
     nrModel.addData("NR-RRC.BCCH.BCH", "nr-rrc.bcch.bch");
@@ -225,11 +149,39 @@ MainWindow::MainWindow(QWidget *parent) :
     nrModel.addData("NR-RRC.UERadioPagingInformation", "nr-rrc.ue_radio_paging_info");
     nrModel.addData("NR-RRC.UERadioAccessCapabilityInformation", "nr-rrc.ue_radio_access_cap_info");
     nrModel.addData("NR-RRC.RRCReconfiguration", "nr-rrc.rrc_reconf");
+    nrModel.addData("NR-RRC.RRCReconfigurationComplete", "nr-rrc.rrc_reconf_compl");
     nrModel.addData("NR-RRC.UEMRDCCapability", "nr-rrc.ue_mrdc_cap");
     nrModel.addData("NR-RRC.UENRCapability", "nr-rrc.ue_nr_cap");
+    nrModel.addData("NR-RRC.SIB1", "nr-rrc.sib1");
+    nrModel.addData("NR-RRC.SIB2", "nr-rrc.sib2");
+    nrModel.addData("NR-RRC.SIB3", "nr-rrc.sib3");
+    nrModel.addData("NR-RRC.SIB4", "nr-rrc.sib4");
+    nrModel.addData("NR-RRC.SIB5", "nr-rrc.sib5");
+    nrModel.addData("NR-RRC.SIB6", "nr-rrc.sib6");
+    nrModel.addData("NR-RRC.SIB7", "nr-rrc.sib7");
+    nrModel.addData("NR-RRC.SIB8", "nr-rrc.sib8");
+    nrModel.addData("NR-RRC.SIB9", "nr-rrc.sib9");
+    nrModel.addData("NR-RRC.SIB10", "nr-rrc.sib10");
+    nrModel.addData("NR-RRC.SIB11", "nr-rrc.sib11");
+    nrModel.addData("NR-RRC.SIB12", "nr-rrc.sib12");
+    nrModel.addData("NR-RRC.SIB13", "nr-rrc.sib13");
+    nrModel.addData("NR-RRC.SIB14", "nr-rrc.sib14");
+    nrModel.addData("NR-RRC.SIB15", "nr-rrc.sib15");
+    nrModel.addData("NR-RRC.SIB16", "nr-rrc.sib16");
+    nrModel.addData("NR-RRC.SIB17", "nr-rrc.sib17");
+    nrModel.addData("NR-RRC.SIB18", "nr-rrc.sib18");
+    nrModel.addData("NR-RRC.SIB19", "nr-rrc.sib19");
+    nrModel.addData("NR-RRC.SIB20", "nr-rrc.sib20");
+    nrModel.addData("NR-RRC.SIB21", "nr-rrc.sib21");
+    nrModel.addData("NR-RRC.SIB22", "nr-rrc.sib22");
+    nrModel.addData("NR-RRC.SIB23", "nr-rrc.sib23");
+    nrModel.addData("NR-RRC.SIB24", "nr-rrc.sib24");
+    nrModel.addData("NR-RRC.SIB25", "nr-rrc.sib25");
+    nrModel.addData("NR-RRC.SIB17bis", "nr-rrc.sib17bis");
 
     nrModel.addData("NAS-5GS", "nas-5gs");
     nrModel.addData("NR MAC", "mac-nr");
+    nrModel.addData("NR PDCP", "pdcp-nr");
 
     /* IP dissectors */
     ipModel.addData("IPv4", "ip");
