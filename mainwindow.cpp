@@ -213,8 +213,8 @@ void MainWindow::on_pushButtonDecode_clicked()
     pdu_length = encoded_pdu.length();
 
     if (pdu_length == 0) {
-        message_box->setText("Enter a HEX string to decode");
-        message_box->setWindowTitle("Error...");
+        message_box->setText("Enter a hex encoded string containing the PDU to decode.");
+        message_box->setWindowTitle("Error");
         message_box->show();
         return;
     }

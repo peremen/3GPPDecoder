@@ -53,6 +53,8 @@ void PreferenceDialog::setDefaults()
     ui->cmbUserDlts->setModel(&d);
     int currentDlt = settings.value("wireshark/dlt", 0).toInt();
     ui->cmbUserDlts->setCurrentIndex(currentDlt);
+    bool keepTmp = settings.value("wireshark/keep_temp_file", false).toBool();
+    ui->chkKeepTmpFile->setChecked(keepTmp);
 }
 
 void PreferenceDialog::on_buttonBox_accepted()
@@ -63,6 +65,7 @@ void PreferenceDialog::on_buttonBox_accepted()
         settings.setValue("path/wireshark", wsdir.canonicalPath());
     }
     settings.setValue("wireshark/dlt", ui->cmbUserDlts->currentIndex());
+    settings.setValue("wireshark/keep_temp_file", (ui->chkKeepTmpFile->checkState() == Qt::CheckState::Checked));
 }
 
 void PreferenceDialog::on_btnBrowse_clicked() {

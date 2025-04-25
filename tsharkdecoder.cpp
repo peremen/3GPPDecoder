@@ -25,7 +25,22 @@
 
 TSharkDecoder::TSharkDecoder()
 {
+    QSettings settings;
+    keepTmpFile = settings.value("wireshark/keep_temp_file", false).toBool();
+    userDlt = settings.value("wireshark/dlt", 0).toInt();
 
+    QString wiresharkDefaultPath;
+
+#if defined(Q_OS_WIN)
+    wiresharkDefaultPath = "C:\\Program Files\\Wireshark\\";
+#elif defined(Q_OS_MACOS)
+    wiresharkDefaultPath = "/Applications/Wireshark.app/Contents/MacOS/";
+#elif defined(Q_OS_LINUX) || defined(Q_OS_UNIX)
+    wiresharkDefaultPath = "/usr/bin";
+#endif
+
+    QString strCurrentWiresharkPath = settings.value("path/wireshark", wiresharkDefaultPath).toString();
+    tsharkPath = strCurrentWiresharkPath;
 }
 
 TSharkDecoder::~TSharkDecoder()
@@ -39,12 +54,11 @@ TSharkDecoder::~TSharkDecoder()
 void TSharkDecoder::startDecoder(QString strEncodedData, QString strProtocol, QString fileName)
 {
     QString strData;
-    QString strTsharkPath;
     QTemporaryFile fileText2PcapTxt;
     QTemporaryFile fileTempPcap(QDir::tempPath() + QDir::separator() + "3GPPDecoder.XXXXXX.pcap");
+    fileTempPcap.setAutoRemove(!keepTmpFile);
 
     strData = preformatData(strEncodedData);
-    strTsharkPath = getTsharkPath();
 
     fileText2PcapTxt.open();
     fileText2PcapTxt.close();
@@ -52,10 +66,11 @@ void TSharkDecoder::startDecoder(QString strEncodedData, QString strProtocol, QS
 
     fileTempPcap.open();
     fileTempPcap.close();
-    call_text2pcap(strTsharkPath, fileText2PcapTxt.fileName(), fileTempPcap.fileName());
+    call_text2pcap(fileText2PcapTxt.fileName(), fileTempPcap.fileName());
 
-    call_tshark(strTsharkPath, strProtocol, fileTempPcap.fileName(), fileName);
+    call_tshark(strProtocol, fileTempPcap.fileName(), fileName);
 
+    tmpPcapFileName = fileTempPcap.fileName();
     clean_output(fileName);
 }
 
@@ -99,27 +114,6 @@ QString TSharkDecoder::preformatData(QString strEncodedData){
     return ret;
 }
 
-/* Get the tshark path
- */
-
-QString TSharkDecoder::getTsharkPath()
-{
-
-    QSettings settings;
-    QString wiresharkDefaultPath;
-
-#if defined(Q_OS_WIN)
-    wiresharkDefaultPath = "C:\\Program Files\\Wireshark\\";
-#elif defined(Q_OS_MACOS)
-    wiresharkDefaultPath = "/Applications/Wireshark.app/Contents/MacOS/";
-#elif defined(Q_OS_LINUX) || defined(Q_OS_UNIX)
-    wiresharkDefaultPath = "/usr/bin";
-#endif
-
-    QString strCurrentWiresharkPath = settings.value("path/wireshark", wiresharkDefaultPath).toString();
-    return strCurrentWiresharkPath;
-}
-
 /* Create a Textfile which text2pcap can understand.
  * 0000 are added to the beginning of the HEX data
  * to make it text2pacp type
@@ -140,12 +134,10 @@ void TSharkDecoder::format_file_for_text2pcap(QString strData, QString fileName)
  * Function calls text2pack.exe from wireshark folder.
  */
 
-void TSharkDecoder::call_text2pcap(QString strTsharkPath, QString textFileName, QString pcapFileName) {
-    QSettings settings;
-    int currentDlt = settings.value("wireshark/dlt", 0).toInt();
-    QString text2pcapCmd = QDir::cleanPath(strTsharkPath + QDir::separator() + "text2pcap");
+void TSharkDecoder::call_text2pcap(QString textFileName, QString pcapFileName) {
+    QString text2pcapCmd = QDir::cleanPath(tsharkPath + QDir::separator() + "text2pcap");
     QStringList text2pcapArgs;
-    text2pcapArgs << "-F" << "pcap" << "-q" << "-l" << QString::number(currentDlt + 147) << textFileName << pcapFileName;
+    text2pcapArgs << "-F" << "pcap" << "-q" << "-l" << QString::number(userDlt + 147) << textFileName << pcapFileName;
     qDebug() << text2pcapArgs;
 
     QProcess *text2pcapProcess = new QProcess();
@@ -157,13 +149,12 @@ void TSharkDecoder::call_text2pcap(QString strTsharkPath, QString textFileName, 
  * RRC messages are decoded directly
  * NAS messages embeded are also parsed by Tshark.
  */
-void TSharkDecoder::call_tshark(QString strTsharkPath, QString strProtocol, QString pcapFileName, QString outputFileName) {
+void TSharkDecoder::call_tshark(QString strProtocol, QString pcapFileName, QString outputFileName) {
     QSettings settings;
-    int currentDlt = settings.value("wireshark/dlt", 0).toInt();
-    QString tsharkCmd = QDir::cleanPath(strTsharkPath + QDir::separator() + "tshark");
+    QString tsharkCmd = QDir::cleanPath(tsharkPath + QDir::separator() + "tshark");
     QString userdltsString = "uat:user_dlts:\"User %1 (DLT=%2)\",\"%3\",\"0\",\"\",\"0\",\"\"";
     QStringList tsharkArgs;
-    tsharkArgs << "-o" << userdltsString.arg(currentDlt).arg(currentDlt + 147).arg(strProtocol);
+    tsharkArgs << "-o" << userdltsString.arg(userDlt).arg(userDlt + 147).arg(strProtocol);
     tsharkArgs << "-r" << pcapFileName << "-V" << "-l" << "-x";
     qDebug() << tsharkArgs;
 
@@ -194,6 +185,10 @@ void TSharkDecoder::clean_output(QString fileName)
         }
         f.resize(0);
         t << s;
+        if (keepTmpFile)
+        {
+            t << QString("\nKeeping temporary PCAP file at %1\n").arg(tmpPcapFileName);
+        }
         f.close();
     }
 }
