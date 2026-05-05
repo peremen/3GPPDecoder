@@ -182,6 +182,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     nrModel.addData("NAS-5GS", "nas-5gs");
     nrModel.addData("NR MAC", "mac-nr");
+    nrModel.addData("NR MAC (Framed)", "mac-nr-framed");
     nrModel.addData("NR PDCP", "pdcp-nr");
 
     /* IP dissectors */
@@ -192,6 +193,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ipModel.addData("RTP", "rtp");
     ipModel.addData("UDP", "udp");
     ipModel.addData("GSMTAP", "gsmtap");
+    ipModel.addData("GSM SMS", "gsm_sms");
+    ipModel.addData("GSM SMS User Data", "gsm_sms_ud");
 
 }
 

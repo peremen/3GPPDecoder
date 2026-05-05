@@ -123,7 +123,6 @@ void TSharkDecoder::format_file_for_text2pcap(QString strData, QString fileName)
     QFile textFile(fileName);
     if (textFile.open(QIODevice::Text | QIODevice::ReadWrite | QIODevice::Truncate)) {
         QTextStream stream(&textFile);
-        stream << "0000";
         stream << strData;
         stream.flush();
     }
